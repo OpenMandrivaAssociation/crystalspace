@@ -9,6 +9,7 @@ Release:	%{release}
 Group:		System/Libraries
 License:	LGPL
 Source0:	%{name}-src-%{version}.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:		http://crystal.sourceforge.net/
 BuildRequires:	lib3ds-devel MesaGLU-devel oggvorbis-devel libmikmod-devel cal3d-devel
 BuildRequires:	jpeg-devel zlib-devel ode-devel png-devel openal-devel >= 0.0.6-5mdk
