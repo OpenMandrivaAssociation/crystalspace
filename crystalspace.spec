@@ -97,7 +97,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,755)
 %{_libdir}/*.a
 %{_includedir}/*
-%{_bindir}/python.cex
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config
 %multiarch %{multiarch_bindir}/cs-config
