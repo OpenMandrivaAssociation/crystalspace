@@ -1,5 +1,5 @@
 %define	name	crystalspace
-%define version 1.0.1
+%define version 1.2
 %define release %mkrel 1
 
 Summary:	CrystalSpace free 3d engine
@@ -11,7 +11,7 @@ License:	LGPL
 Source0:	%{name}-src-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:		http://crystal.sourceforge.net/
-BuildRequires:	lib3ds-devel MesaGLU-devel oggvorbis-devel libmikmod-devel cal3d-devel
+BuildRequires:	lib3ds-devel >= 1.3.0 MesaGLU-devel oggvorbis-devel libmikmod-devel cal3d-devel
 BuildRequires:	jpeg-devel zlib-devel ode-devel png-devel openal-devel >= 0.0.6-5mdk
 BuildRequires:	mng-devel arts-devel X11-devel nasm perl-devel wxGTK2.8-devel
 BuildRequires:	swig >= 1.3.14 bison >= 1.35 python-devel jam
@@ -87,11 +87,11 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,755)
-%dir %{_libdir}/crystalspace
-%{_libdir}/crystalspace/*.so
-%{_datadir}/crystalspace
-%dir %{_sysconfdir}/crystalspace
-%config(noreplace) %{_sysconfdir}/crystalspace/*
+%dir %{_libdir}/%{name}-%{version}
+%{_libdir}/%{name}-%{version}/*.so
+%{_datadir}/%{name}-%{version}
+%dir %{_sysconfdir}/%{name}-%{version}
+%config(noreplace) %{_sysconfdir}/%{name}-%{version}/*
 
 %files devel
 %defattr(-,root,root,755)
@@ -109,7 +109,6 @@ rm -rf %{buildroot}
 %files demos
 %defattr(-,root,root,755)
 %{_bindir}/*
-%exclude %{_bindir}/python.cex
 %exclude %{_bindir}/cs-config
 %exclude %{multiarch_bindir}
 
