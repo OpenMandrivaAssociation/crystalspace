@@ -78,7 +78,7 @@ Crystalspace demos.
 %prep
 %setup -q -n %{name}-src-%{version}
 
-# work around mikmod not being linked to libdl as it should (bug 431745)
+# work around mikmod not being linked to libdl as it should
 sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
 # stop configure from adding -L/usr/local/lib to cs-config (and the build)
 sed -i 's|-d /usr/local/lib|-d /foobar|' configure
