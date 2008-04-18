@@ -50,27 +50,27 @@ scripting (using Python or other languages), 8-bit, 16-bit, and 32-bit
 display support, OpenGL and software renderering, font support,
 hierarchical transformations, etc.
 
-%package	devel
+%package devel
 Group:		Development/C
 Summary:	Development headers and libraries for %{name}
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
-%description	devel
-Development headers and libraries for %{name}
+%description devel
+Development headers and libraries for %{name}.
 
-%package	doc
+%package doc
 Summary:	Crystalspace documentation
 Group:		Development/C
-Requires:	%{name} = %{version}
-Conflicts:      freetds-devel
+Requires:	%{name} = %{version}-%{release}
+Conflicts:	freetds-devel
 
-%description	doc
-Crystalspace documentation
+%description doc
+Crystalspace documentation.
 
-%package	demos
+%package demos
 Summary:	Crystalspace demos
 Group:		Toys
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description	demos
 Crystalspace demos.
