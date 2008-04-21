@@ -6,6 +6,7 @@ Group:		System/Libraries
 License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
+Patch0:		%{name}-src-1.2-cs-config.patch
 BuildRequires:	lib3ds-devel >= 1.3.0
 BuildRequires:	MesaGLU-devel
 BuildRequires:	oggvorbis-devel
@@ -38,6 +39,8 @@ BuildRequires:	imagemagick
 BuildRequires:	cppunit-devel
 BuildRequires:	icoutils
 BuildRequires:	CEGUI-devel
+BuildRequires:	perl(Template::Base)
+#BuildRequires:	java-rpmbuild ant
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -77,6 +80,7 @@ Crystalspace demos.
 
 %prep
 %setup -q -n %{name}-src-%{version}
+%patch0 -p1
 
 # work around mikmod not being linked to libdl as it should
 sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
@@ -95,6 +99,7 @@ sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 	--with-gnu-ld \
 	--enable-mode=optimize \
 	--enable-plugins \
+	--with-java \
 	--with-wx
 
 jam -d2 %{_smp_mflags}
@@ -106,6 +111,7 @@ DESTDIR=%{buildroot} jam -d2 install
 install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.m4
 
 sed -i -e "s#/lib/#/%{_lib}/#g" %{buildroot}%{_bindir}/cs-config
+sed -i 's| -L%{_libdir}/python2.5||' %{buildroot}%{_bindir}/cs-config
 
 #multiarch
 %multiarch_binaries %{buildroot}%{_bindir}/cs-config
