@@ -115,18 +115,23 @@ sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
 # stop configure from adding -L/usr/local/lib to cs-config (and the build)
 sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 
+# (tpg) kill arch optimizations, in case of mdv -march= is always set to generic
+for i in i486 i586 i686 athlon k8; do
+    sed -i -e 's/march='$i'/march=generic/g' configure
+    sed -i -e 's/mtune='$i'/mtune=generic/g' configure;
+done
+
 %build
 %configure2_5x	\
 	--with-mesa \
 	--enable-cpu-specific-instructions=no \
 	--disable-cpu-specific-instructions \
 	--enable-linux-joystick \
-	--enable-optimize \
+	--disable-optimize \
 	--disable-debug \
 	--disable-separate-debug-info \
 	--with-pic \
 	--with-gnu-ld \
-	--enable-mode=optimize \
 	--enable-plugins \
 	--with-java \
 	--with-wx \
