@@ -40,7 +40,8 @@ BuildRequires:	cppunit-devel
 BuildRequires:	icoutils
 BuildRequires:	CEGUI-devel
 BuildRequires:	perl(Template::Base)
-#BuildRequires:	java-rpmbuild ant
+BuildRequires:	java-rpmbuild
+BuildRequires:	ant
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -78,6 +79,33 @@ Requires:	%{name} = %{version}-%{release}
 %description	demos
 Crystalspace demos.
 
+%package bindings-python
+Summary:	Python bindings for Crystal Space free 3D SDK
+Group:		Development/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python
+
+%description bindings-python
+Python bindings for Crystal Space free 3D SDK.
+
+%package bindings-java
+Group:		Development/Java
+Summary:	Java bindings for Crystal Space free 3D SDK
+Requires:	%{name} = %{version}-%{release}
+Requires:	java
+
+%description bindings-java
+Java bindings for Crystal Space free 3D SDK.
+
+%package bindings-perl
+Summary:	Perl bindings for Crystal Space free 3D SDK
+Group:		Development/Perl
+Requires:	%{name} = %{version}-%{release}
+Requires:	perl
+
+%description bindings-perl
+Perl bindings for Crystal Space free 3D SDK.
+
 %prep
 %setup -q -n %{name}-src-%{version}
 %patch0 -p1
@@ -90,6 +118,7 @@ sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 %build
 %configure2_5x	\
 	--with-mesa \
+	--enable-cpu-specific-instructions=no \
 	--disable-cpu-specific-instructions \
 	--enable-linux-joystick \
 	--enable-optimize \
@@ -100,7 +129,9 @@ sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 	--enable-mode=optimize \
 	--enable-plugins \
 	--with-java \
-	--with-wx
+	--with-wx \
+	--with-caca=%{_prefix} \
+	--disable-meta-info-embedding
 
 jam -d2 %{_smp_mflags}
 
@@ -123,7 +154,14 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %dir %{_libdir}/%{name}-%{version}
 %{_libdir}/%{name}-%{version}/*.so
-%{_datadir}/%{name}-%{version}
+%{_libdir}/%{name}-%{version}/*.csplugin
+%exclude %{_libdir}/%{name}-%{version}/csperl5.so
+%exclude %{_libdir}/%{name}-%{version}/cspython.so
+%exclude %{_libdir}/%{name}-%{version}/cspython.csplugin
+%dir %{_datadir}/%{name}-%{version}/bindings
+%{_datadir}/%{name}-%{version}/build
+%{_datadir}/%{name}-%{version}/conversion
+%{_datadir}/%{name}-%{version}/data
 %dir %{_sysconfdir}/%{name}-%{version}
 %config(noreplace) %{_sysconfdir}/%{name}-%{version}/*
 
@@ -144,3 +182,22 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
 %exclude %{multiarch_bindir}
+
+%files bindings-java
+%defattr(-,root,root)
+%dir %{_datadir}/%{name}-%{version}/bindings
+%dir %{_datadir}/%{name}-%{version}/bindings/java
+%{_datadir}/%{name}-%{version}/bindings/java/*
+
+%files bindings-perl
+%defattr(-,root,root)
+%dir %{_datadir}/%{name}-%{version}/bindings/perl5
+%{_libdir}/%{name}-%{version}/csperl5.so
+%{_datadir}/%{name}-%{version}/bindings/perl5/*
+
+%files bindings-python
+%defattr(-,root,root)
+%dir %{_datadir}/%{name}-%{version}/bindings/python
+%{_libdir}/%{name}-%{version}/cspython.so
+%{_libdir}/%{name}-%{version}/cspython.csplugin
+%{_datadir}/%{name}-%{version}/bindings/python/*
