@@ -122,6 +122,10 @@ for i in i486 i586 i686 athlon k8; do
 done
 
 %build
+export CFLAGS="%{optflags} -I%{_includedir}/AL"
+export CXXFLAGS=$CFLAGS
+export LDFLAGS=$CFLAGS
+
 %configure2_5x	\
 	--with-mesa \
 	--enable-cpu-specific-instructions=no \
@@ -150,7 +154,7 @@ sed -i -e "s#/lib/#/%{_lib}/#g" %{buildroot}%{_bindir}/cs-config
 sed -i 's| -L%{_libdir}/python2.5||' %{buildroot}%{_bindir}/cs-config
 
 #multiarch
-%multiarch_binaries %{buildroot}%{_bindir}/cs-config
+%multiarch_binaries %{buildroot}%{_bindir}/cs-config*
 
 %clean
 rm -rf %{buildroot}
@@ -160,7 +164,6 @@ rm -rf %{buildroot}
 %dir %{_libdir}/%{name}-%{version}
 %{_libdir}/%{name}-%{version}/*.so
 %{_libdir}/%{name}-%{version}/*.csplugin
-%exclude %{_libdir}/%{name}-%{version}/csperl5.so
 %exclude %{_libdir}/%{name}-%{version}/cspython.so
 %exclude %{_libdir}/%{name}-%{version}/cspython.csplugin
 %dir %{_datadir}/%{name}-%{version}/bindings
@@ -175,8 +178,11 @@ rm -rf %{buildroot}
 %{_libdir}/*.a
 %{_includedir}/*
 %{_datadir}/aclocal/crystal.m4
-%{_bindir}/cs-config
-%multiarch %{multiarch_bindir}/cs-config
+%{_bindir}/cs-config*
+%multiarch %{multiarch_bindir}/cs-config*
+%exclude %{_includedir}/%{name}-%{version}/bindings/java
+%exclude %{_includedir}/%{name}-%{version}/bindings/perl
+%exclude %{_includedir}/%{name}-%{version}/bindings/python
 
 %files doc
 %defattr(-,root,root)
@@ -186,6 +192,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
+%exclude %{_bindir}/cs-config-1.2
 %exclude %{multiarch_bindir}
 
 %files bindings-java
@@ -193,12 +200,13 @@ rm -rf %{buildroot}
 %dir %{_datadir}/%{name}-%{version}/bindings
 %dir %{_datadir}/%{name}-%{version}/bindings/java
 %{_datadir}/%{name}-%{version}/bindings/java/*
+%{_includedir}/%{name}-%{version}/bindings/java
 
 %files bindings-perl
 %defattr(-,root,root)
 %dir %{_datadir}/%{name}-%{version}/bindings/perl5
-%{_libdir}/%{name}-%{version}/csperl5.so
 %{_datadir}/%{name}-%{version}/bindings/perl5/*
+%{_includedir}/%{name}-%{version}/bindings/perl
 
 %files bindings-python
 %defattr(-,root,root)
@@ -206,3 +214,4 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}-%{version}/cspython.so
 %{_libdir}/%{name}-%{version}/cspython.csplugin
 %{_datadir}/%{name}-%{version}/bindings/python/*
+%{_includedir}/%{name}-%{version}/bindings/python
