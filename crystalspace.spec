@@ -117,8 +117,8 @@ sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 
 # (tpg) kill arch optimizations, in case of mdv -march= is always set to generic
 for i in i486 i586 i686 athlon k8; do
-    sed -i -e 's/march='$i'/march=generic/g' configure
-    sed -i -e 's/mtune='$i'/mtune=generic/g' configure;
+    sed -i -e 's/march='$i'//g' configure*
+    sed -i -e 's/mtune='$i'//g' configure*;
 done
 
 %build
