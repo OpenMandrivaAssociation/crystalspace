@@ -1,7 +1,7 @@
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
 Version:	1.2
-Release:	%mkrel 5
+Release:	%mkrel 6
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
