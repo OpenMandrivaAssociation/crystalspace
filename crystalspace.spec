@@ -1,7 +1,7 @@
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
 Version:	1.2
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
@@ -122,9 +122,13 @@ for i in i486 i586 i686 athlon k8; do
 done
 
 %build
-export CFLAGS="%{optflags} -I%{_includedir}/AL"
+export CFLAGS="%{optflags} -I%{_includedir} -I%{_includedir}/AL"
 export CXXFLAGS=$CFLAGS
 export LDFLAGS=$CFLAGS
+
+sed -i -e 's#/usr/local/lib#%{_libdir}#g' configure
+sed -i -e 's#/usr/local/include#%{_includedir}#g' configure
+sed -i -e 's#/usr/local#%{_prefix}#g' configure
 
 %configure2_5x	\
 	--with-mesa \
