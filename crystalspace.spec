@@ -190,7 +190,7 @@ rm -rf %{buildroot}
 
 %files doc
 %defattr(-,root,root)
-%doc %{_docdir}/%{name}-1.2
+%doc %{_docdir}/%{name}-%{version}
 
 %files demos
 %defattr(-,root,root)
