@@ -165,17 +165,17 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%dir %{_libdir}/%{name}-%{version}
-%{_libdir}/%{name}-%{version}/*.so
-%{_libdir}/%{name}-%{version}/*.csplugin
-%exclude %{_libdir}/%{name}-%{version}/cspython.so
-%exclude %{_libdir}/%{name}-%{version}/cspython.csplugin
-%dir %{_datadir}/%{name}-%{version}/bindings
-%{_datadir}/%{name}-%{version}/build
-%{_datadir}/%{name}-%{version}/conversion
-%{_datadir}/%{name}-%{version}/data
-%dir %{_sysconfdir}/%{name}-%{version}
-%config(noreplace) %{_sysconfdir}/%{name}-%{version}/*
+%dir %{_libdir}/%{name}-1.2
+%{_libdir}/%{name}-1.2/*.so
+%{_libdir}/%{name}-1.2/*.csplugin
+%exclude %{_libdir}/%{name}-1.2/cspython.so
+%exclude %{_libdir}/%{name}-1.2/cspython.csplugin
+%dir %{_datadir}/%{name}-1.2/bindings
+%{_datadir}/%{name}-1.2/build
+%{_datadir}/%{name}-1.2/conversion
+%{_datadir}/%{name}-1.2/data
+%dir %{_sysconfdir}/%{name}-1.2
+%config(noreplace) %{_sysconfdir}/%{name}-1.2/*
 
 %files devel
 %defattr(-,root,root)
@@ -184,13 +184,13 @@ rm -rf %{buildroot}
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
 %multiarch %{multiarch_bindir}/cs-config*
-%exclude %{_includedir}/%{name}-%{version}/bindings/java
-%exclude %{_includedir}/%{name}-%{version}/bindings/perl
-%exclude %{_includedir}/%{name}-%{version}/bindings/python
+%exclude %{_includedir}/%{name}-1.2/bindings/java
+%exclude %{_includedir}/%{name}-1.2/bindings/perl
+%exclude %{_includedir}/%{name}-1.2/bindings/python
 
 %files doc
 %defattr(-,root,root)
-%doc %{_docdir}/%{name}-%{version}
+%doc %{_docdir}/%{name}-1.2
 
 %files demos
 %defattr(-,root,root)
@@ -201,21 +201,21 @@ rm -rf %{buildroot}
 
 %files bindings-java
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-%{version}/bindings
-%dir %{_datadir}/%{name}-%{version}/bindings/java
-%{_datadir}/%{name}-%{version}/bindings/java/*
-%{_includedir}/%{name}-%{version}/bindings/java
+%dir %{_datadir}/%{name}-1.2/bindings
+%dir %{_datadir}/%{name}-1.2/bindings/java
+%{_datadir}/%{name}-1.2/bindings/java/*
+%{_includedir}/%{name}-1.2/bindings/java
 
 %files bindings-perl
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-%{version}/bindings/perl5
-%{_datadir}/%{name}-%{version}/bindings/perl5/*
-%{_includedir}/%{name}-%{version}/bindings/perl
+%dir %{_datadir}/%{name}-1.2/bindings/perl5
+%{_datadir}/%{name}-1.2/bindings/perl5/*
+%{_includedir}/%{name}-1.2/bindings/perl
 
 %files bindings-python
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-%{version}/bindings/python
-%{_libdir}/%{name}-%{version}/cspython.so
-%{_libdir}/%{name}-%{version}/cspython.csplugin
-%{_datadir}/%{name}-%{version}/bindings/python/*
-%{_includedir}/%{name}-%{version}/bindings/python
+%dir %{_datadir}/%{name}-1.2/bindings/python
+%{_libdir}/%{name}-1.2/cspython.so
+%{_libdir}/%{name}-1.2/cspython.csplugin
+%{_datadir}/%{name}-1.2/bindings/python/*
+%{_includedir}/%{name}-1.2/bindings/python
