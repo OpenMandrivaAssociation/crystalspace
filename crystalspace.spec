@@ -110,6 +110,7 @@ Perl bindings for Crystal Space free 3D SDK.
 %prep
 %setup -q -n %{name}-src-%{version}
 %patch0 -p1
+%patch1 -p0
 
 # work around mikmod not being linked to libdl as it should
 sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
