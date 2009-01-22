@@ -7,6 +7,7 @@ License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
 Patch0:		%{name}-src-1.2-cs-config.patch
+Patch1:		crystalspace-src-1.2.1-fix-str-fmt.patch
 BuildRequires:	lib3ds-devel >= 1.3.0
 BuildRequires:	MesaGLU-devel
 BuildRequires:	oggvorbis-devel
