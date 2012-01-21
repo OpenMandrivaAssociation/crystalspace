@@ -173,7 +173,7 @@ sed -i 's| -L%{_libdir}/python2.5||' %{buildroot}%{_bindir}/cs-config
 %multiarch_binaries %{buildroot}%{_bindir}/cs-config*
 
 %if !%{with java}
-rm -rf %{buildroot}%{_datadir}/%{name}-%{major}/bindings/java
+rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
 %endif
 
 %clean
