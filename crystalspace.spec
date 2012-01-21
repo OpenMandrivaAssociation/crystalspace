@@ -1,15 +1,15 @@
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
-Version:	1.2.1
-Release:	%mkrel 6
+Version:	1.4.1
+Release:	1
 Group:		System/Libraries
 License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
-Patch0:		%{name}-src-1.2-cs-config.patch
+Patch0:		crystalspace-src-1.4.1-cs-config.patch
 Patch1:		crystalspace-src-1.2.1-fix-str-fmt.patch
 BuildRequires:	lib3ds-devel >= 1.3.0
-BuildRequires:	MesaGLU-devel
+#BuildRequires:	MesaGLU-devel
 BuildRequires:	oggvorbis-devel
 BuildRequires:	libmikmod-devel
 BuildRequires:	cal3d-devel
@@ -22,14 +22,14 @@ BuildRequires:	mng-devel
 BuildRequires:	X11-devel
 BuildRequires:	nasm
 BuildRequires:	perl-devel
-BuildRequires:	wxGTK2.8-devel
+BuildRequires:	wxgtku-devel
 BuildRequires:	swig >= 1.3.14
 BuildRequires:	bison >= 1.35
 BuildRequires:	python-devel
 BuildRequires:	ftjam
 BuildRequires:	flex
 BuildRequires:	doxygen
-BuildRequires:	bullet-static-devel
+BuildRequires:	pkgconfig(bullet)
 BuildRequires:	libtool
 BuildRequires:	texinfo
 BuildRequires:	librsvg
@@ -110,12 +110,12 @@ Perl bindings for Crystal Space free 3D SDK.
 %prep
 %setup -q -n %{name}-src-%{version}
 %patch0 -p1
-%patch1 -p0
+#patch1 -p0
 
 # work around mikmod not being linked to libdl as it should
-sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
+#sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
 # stop configure from adding -L/usr/local/lib to cs-config (and the build)
-sed -i 's|-d /usr/local/lib|-d /foobar|' configure
+#sed -i 's|-d /usr/local/lib|-d /foobar|' configure
 
 # (tpg) kill arch optimizations, in case of mdv -march= is always set to generic
 for i in i486 i586 i686 athlon k8; do
