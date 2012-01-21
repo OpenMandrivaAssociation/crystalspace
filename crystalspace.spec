@@ -88,7 +88,6 @@ Crystalspace demos.
 Summary:	Python bindings for Crystal Space free 3D SDK
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
-Requires:	python
 
 %description bindings-python
 Python bindings for Crystal Space free 3D SDK.
