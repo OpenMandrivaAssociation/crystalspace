@@ -135,7 +135,7 @@ sed	-e 's#--exists libpng#--exists libpng12#g' \
 	-i configure
 
 %build
-export CFLAGS="%{optflags} -I%{_includedir} -I%{_includedir}/AL"
+export CFLAGS="%{optflags} -I%{_includedir} -I%{_includedir}/AL -fpermissive"
 export CXXFLAGS=$CFLAGS
 export LDFLAGS=$CFLAGS
 
