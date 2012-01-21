@@ -16,7 +16,7 @@ BuildRequires:	cal3d-devel
 BuildRequires:	jpeg-devel
 BuildRequires:	zlib-devel
 BuildRequires:	ode-devel
-BuildRequires:	png-devel
+BuildRequires:	pkgconfig(libpng12)
 BuildRequires:	openal-devel >= 0.0.6-5mdk
 BuildRequires:	mng-devel
 BuildRequires:	X11-devel
@@ -122,6 +122,11 @@ for i in i486 i586 i686 athlon k8; do
     sed -i -e 's/march='$i'//g' configure*
     sed -i -e 's/mtune='$i'//g' configure*;
 done
+
+sed	-e 's#--exists libpng#--exists libpng12#g' \
+	-e 's#--cflags libpng#--cflags libpng12#g' \
+	-e 's#--libs libpng#--libs libpng12#g' \
+	-i configure
 
 %build
 export CFLAGS="%{optflags} -I%{_includedir} -I%{_includedir}/AL"
