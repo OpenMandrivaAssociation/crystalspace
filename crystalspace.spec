@@ -2,7 +2,8 @@
 
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
-Version:	1.4.1
+%define	major	1.4
+Version:	%{major}.1
 Release:	1
 Group:		System/Libraries
 License:	LGPLv2+
@@ -171,35 +172,40 @@ sed -i 's| -L%{_libdir}/python2.5||' %{buildroot}%{_bindir}/cs-config
 #multiarch
 %multiarch_binaries %{buildroot}%{_bindir}/cs-config*
 
+%if !%{with java}
+rm -rf %{buildroot}%{_datadir}/%{name}-%{major}/bindings/java
+%endif
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%dir %{_libdir}/%{name}-1.2
-%{_libdir}/%{name}-1.2/*.so
-%{_libdir}/%{name}-1.2/*.csplugin
-%exclude %{_libdir}/%{name}-1.2/cspython.so
-%exclude %{_libdir}/%{name}-1.2/cspython.csplugin
-%dir %{_datadir}/%{name}-1.2/bindings
-%{_datadir}/%{name}-1.2/build
-%{_datadir}/%{name}-1.2/conversion
-%{_datadir}/%{name}-1.2/data
-%dir %{_sysconfdir}/%{name}-1.2
-%config(noreplace) %{_sysconfdir}/%{name}-1.2/*
+%{_libdir}/libcrystalspace*-%{major}.so
+%dir %{_libdir}/%{name}-%{major}
+%{_libdir}/%{name}-%{major}/*.so
+%{_libdir}/%{name}-%{major}/*.csplugin
+%exclude %{_libdir}/%{name}-%{major}/cspython.so
+%exclude %{_libdir}/%{name}-%{major}/cspython.csplugin
+%dir %{_datadir}/%{name}-%{major}/bindings
+%{_datadir}/%{name}-%{major}/build
+%{_datadir}/%{name}-%{major}/conversion
+%{_datadir}/%{name}-%{major}/data
+%dir %{_sysconfdir}/%{name}-%{major}
+%config(noreplace) %{_sysconfdir}/%{name}-%{major}/*
 
 %files devel
 %defattr(-,root,root)
-%{_libdir}/*.a
 %{_includedir}/*
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
 %multiarch %{multiarch_bindir}/cs-config*
+
 %if %{with java}
-%exclude %{_includedir}/%{name}-1.2/bindings/java
+%exclude %{_includedir}/%{name}-%{major}/bindings/java
 %endif
-%exclude %{_includedir}/%{name}-1.2/bindings/perl
-%exclude %{_includedir}/%{name}-1.2/bindings/python
+%exclude %{_includedir}/%{name}-%{major}/bindings/perl
+%exclude %{_includedir}/%{name}-%{major}/bindings/python
 
 %files doc
 %defattr(-,root,root)
@@ -209,28 +215,29 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
-%exclude %{_bindir}/cs-config-1.2
+%exclude %{_bindir}/cs-config-%{major}
 %exclude %{multiarch_bindir}
 
 %if %{with java}
 %files bindings-java
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-1.2/bindings
-%dir %{_datadir}/%{name}-1.2/bindings/java
-%{_datadir}/%{name}-1.2/bindings/java/*
-%{_includedir}/%{name}-1.2/bindings/java
+%dir %{_datadir}/%{name}-%{major}/bindings
+%dir %{_datadir}/%{name}-%{major}/bindings/java
+%{_datadir}/%{name}-%{major}/bindings/java/*
+%{_includedir}/%{name}-%{major}/bindings/java
 %endif
 
 %files bindings-perl
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-1.2/bindings/perl5
-%{_datadir}/%{name}-1.2/bindings/perl5/*
-%{_includedir}/%{name}-1.2/bindings/perl
+%dir %{_datadir}/%{name}-%{major}/bindings/perl5
+%{_datadir}/%{name}-%{major}/bindings/perl5/*
+%{_includedir}/%{name}-%{major}/bindings/perl
 
 %files bindings-python
 %defattr(-,root,root)
-%dir %{_datadir}/%{name}-1.2/bindings/python
-%{_libdir}/%{name}-1.2/cspython.so
-%{_libdir}/%{name}-1.2/cspython.csplugin
-%{_datadir}/%{name}-1.2/bindings/python/*
-%{_includedir}/%{name}-1.2/bindings/python
+%{python_sitearch}/cspace.pth
+%dir %{_datadir}/%{name}-%{major}/bindings/python
+%{_libdir}/%{name}-%{major}/cspython.so
+%{_libdir}/%{name}-%{major}/cspython.csplugin
+%{_datadir}/%{name}-%{major}/bindings/python/*
+%{_includedir}/%{name}-%{major}/bindings/python
