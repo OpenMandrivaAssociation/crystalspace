@@ -10,7 +10,6 @@ License:	LGPLv2+
 URL:		http://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
 Patch0:		crystalspace-src-1.4.1-cs-config.patch
-Patch1:		crystalspace-src-1.2.1-fix-str-fmt.patch
 BuildRequires:	lib3ds-devel >= 1.3.0
 #BuildRequires:	MesaGLU-devel
 BuildRequires:	oggvorbis-devel
@@ -60,24 +59,24 @@ scripting (using Python or other languages), 8-bit, 16-bit, and 32-bit
 display support, OpenGL and software renderering, font support,
 hierarchical transformations, etc.
 
-%package devel
+%package	devel
 Group:		Development/C
 Summary:	Development headers and libraries for %{name}
 Requires:	%{name} = %{version}-%{release}
 
-%description devel
+%description	devel
 Development headers and libraries for %{name}.
 
-%package doc
+%package	doc
 Summary:	Crystalspace documentation
 Group:		Development/C
 Requires:	%{name} = %{version}-%{release}
 Conflicts:	freetds-devel
 
-%description doc
+%description	doc
 Crystalspace documentation.
 
-%package demos
+%package	demos
 Summary:	Crystalspace demos
 Group:		Toys
 Requires:	%{name} = %{version}-%{release}
@@ -85,7 +84,7 @@ Requires:	%{name} = %{version}-%{release}
 %description	demos
 Crystalspace demos.
 
-%package bindings-python
+%package	bindings-python
 Summary:	Python bindings for Crystal Space free 3D SDK
 Group:		Development/Python
 Requires:	%{name} = %{version}-%{release}
@@ -95,40 +94,28 @@ Requires:	python
 Python bindings for Crystal Space free 3D SDK.
 
 %if %{with java}
-%package bindings-java
+%package	bindings-java
 Group:		Development/Java
 Summary:	Java bindings for Crystal Space free 3D SDK
 Requires:	%{name} = %{version}-%{release}
 Requires:	java
 
-%description bindings-java
+%description	bindings-java
 Java bindings for Crystal Space free 3D SDK.
 %endif
 
-%package bindings-perl
+%package	bindings-perl
 Summary:	Perl bindings for Crystal Space free 3D SDK
 Group:		Development/Perl
 Requires:	%{name} = %{version}-%{release}
 Requires:	perl
 
-%description bindings-perl
+%description	bindings-perl
 Perl bindings for Crystal Space free 3D SDK.
 
 %prep
 %setup -q -n %{name}-src-%{version}
 %patch0 -p1
-#patch1 -p0
-
-# work around mikmod not being linked to libdl as it should
-#sed -i 's/-lmikmod/-lmikmod -ldl/g' configure
-# stop configure from adding -L/usr/local/lib to cs-config (and the build)
-#sed -i 's|-d /usr/local/lib|-d /foobar|' configure
-
-# (tpg) kill arch optimizations, in case of mdv -march= is always set to generic
-for i in i486 i586 i686 athlon k8; do
-    sed -i -e 's/march='$i'//g' configure*
-    sed -i -e 's/mtune='$i'//g' configure*;
-done
 
 sed	-e 's#--exists libpng#--exists libpng12#g' \
 	-e 's#--cflags libpng#--cflags libpng12#g' \
@@ -136,15 +123,9 @@ sed	-e 's#--exists libpng#--exists libpng12#g' \
 	-i configure
 
 %build
-export CFLAGS="%{optflags} -I%{_includedir} -I%{_includedir}/AL -fpermissive"
-export CXXFLAGS=$CFLAGS
-export LDFLAGS=$CFLAGS
-
-sed -i -e 's#/usr/local/lib#%{_libdir}#g' configure
-sed -i -e 's#/usr/local/include#%{_includedir}#g' configure
-sed -i -e 's#/usr/local#%{_prefix}#g' configure
-
+CXXFLAGS="%{optflags} -fpermissive" \
 %configure2_5x	\
+	--enable-cpu-specific-optimizations=no \
 	--with-mesa \
 	--disable-optimize \
 	--disable-debug \
