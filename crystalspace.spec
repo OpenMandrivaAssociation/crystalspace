@@ -166,12 +166,6 @@ DESTDIR=%{buildroot} jam -d2 install
 
 install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.m4
 
-sed -i -e "s#/lib/#/%{_lib}/#g" %{buildroot}%{_bindir}/cs-config
-sed -i 's| -L%{_libdir}/python2.5||' %{buildroot}%{_bindir}/cs-config
-
-#multiarch
-%multiarch_binaries %{buildroot}%{_bindir}/cs-config*
-
 %if !%{with java}
 rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
 %endif
@@ -199,7 +193,6 @@ rm -rf %{buildroot}
 %{_includedir}/*
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
-%multiarch %{multiarch_bindir}/cs-config*
 
 %if %{with java}
 %exclude %{_includedir}/%{name}-%{major}/bindings/java
@@ -216,7 +209,6 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
 %exclude %{_bindir}/cs-config-%{major}
-%exclude %{multiarch_bindir}
 
 %if %{with java}
 %files bindings-java
