@@ -1,3 +1,5 @@
+%bcond_with	java
+
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
 Version:	1.4.1
@@ -41,8 +43,10 @@ BuildRequires:	cppunit-devel
 BuildRequires:	icoutils
 BuildRequires:	CEGUI-devel
 BuildRequires:	perl(Template::Base)
+%if %{with java}
 BuildRequires:	java-rpmbuild
 BuildRequires:	ant
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -89,6 +93,7 @@ Requires:	python
 %description bindings-python
 Python bindings for Crystal Space free 3D SDK.
 
+%if %{with java}
 %package bindings-java
 Group:		Development/Java
 Summary:	Java bindings for Crystal Space free 3D SDK
@@ -97,6 +102,7 @@ Requires:	java
 
 %description bindings-java
 Java bindings for Crystal Space free 3D SDK.
+%endif
 
 %package bindings-perl
 Summary:	Perl bindings for Crystal Space free 3D SDK
@@ -148,7 +154,11 @@ sed -i -e 's#/usr/local#%{_prefix}#g' configure
 	--with-pic \
 	--with-gnu-ld \
 	--enable-plugins \
+%if %{with java}
 	--with-java \
+%else
+	--without-java \
+%endif
 	--with-wx \
 	--with-caca=%{_prefix} \
 	--disable-meta-info-embedding
@@ -191,7 +201,9 @@ rm -rf %{buildroot}
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
 %multiarch %{multiarch_bindir}/cs-config*
+%if %{with java}
 %exclude %{_includedir}/%{name}-1.2/bindings/java
+%endif
 %exclude %{_includedir}/%{name}-1.2/bindings/perl
 %exclude %{_includedir}/%{name}-1.2/bindings/python
 
@@ -206,12 +218,14 @@ rm -rf %{buildroot}
 %exclude %{_bindir}/cs-config-1.2
 %exclude %{multiarch_bindir}
 
+%if %{with java}
 %files bindings-java
 %defattr(-,root,root)
 %dir %{_datadir}/%{name}-1.2/bindings
 %dir %{_datadir}/%{name}-1.2/bindings/java
 %{_datadir}/%{name}-1.2/bindings/java/*
 %{_includedir}/%{name}-1.2/bindings/java
+%endif
 
 %files bindings-perl
 %defattr(-,root,root)
