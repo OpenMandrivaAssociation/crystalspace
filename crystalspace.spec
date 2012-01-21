@@ -145,15 +145,9 @@ sed -i -e 's#/usr/local#%{_prefix}#g' configure
 
 %configure2_5x	\
 	--with-mesa \
-	--enable-cpu-specific-instructions=no \
-	--disable-cpu-specific-instructions \
-	--enable-linux-joystick \
 	--disable-optimize \
 	--disable-debug \
 	--disable-separate-debug-info \
-	--with-pic \
-	--with-gnu-ld \
-	--enable-plugins \
 %if %{with java}
 	--with-java \
 %else
