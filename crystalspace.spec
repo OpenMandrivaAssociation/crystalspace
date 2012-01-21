@@ -72,6 +72,7 @@ Summary:	Crystalspace documentation
 Group:		Development/C
 Requires:	%{name} = %{version}-%{release}
 Conflicts:	freetds-devel
+BuildArch:	noarch
 
 %description	doc
 Crystalspace documentation.
