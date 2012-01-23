@@ -28,7 +28,7 @@ BuildRequires:	wxgtku-devel
 BuildRequires:	swig >= 1.3.14
 BuildRequires:	bison >= 1.35
 BuildRequires:	python-devel
-BuildRequires:	ftjam
+BuildRequires:	ftjam >= 2.5.3rc2-0.9
 BuildRequires:	flex
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(bullet)
