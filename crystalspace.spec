@@ -12,14 +12,14 @@ Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.
 Patch0:		crystalspace-src-1.4.1-cs-config.patch
 BuildRequires:	lib3ds-devel >= 1.3.0
 #BuildRequires:	MesaGLU-devel
-BuildRequires:	oggvorbis-devel
+BuildRequires:	pkgconfig(vorbis)
 BuildRequires:	libmikmod-devel
-BuildRequires:	cal3d-devel
+BuildRequires:	pkgconfig(cal3d)
 BuildRequires:	jpeg-devel
-BuildRequires:	zlib-devel
-BuildRequires:	ode-devel
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(ode)
 BuildRequires:	pkgconfig(libpng12)
-BuildRequires:	openal-devel >= 0.0.6-5mdk
+BuildRequires:	pkgconfig(openal)
 BuildRequires:	mng-devel
 BuildRequires:	X11-devel
 BuildRequires:	nasm
@@ -34,14 +34,14 @@ BuildRequires:	doxygen
 BuildRequires:	pkgconfig(bullet)
 BuildRequires:	libtool
 BuildRequires:	texinfo
-BuildRequires:	librsvg
-BuildRequires:	libcaca-devel
+BuildRequires:	pkgconfig(librsvg-2.0)
+BuildRequires:	pkgconfig(caca)
 BuildRequires:	tetex-dvipdfm
 BuildRequires:	tetex-dvips
 BuildRequires:	imagemagick
-BuildRequires:	cppunit-devel
+BuildRequires:	pkgconfig(cppunit)
 BuildRequires:	icoutils
-BuildRequires:	CEGUI-devel
+BuildRequires:	pkgconfig(CEGUI)
 BuildRequires:	perl(Template::Base)
 %if %{with java}
 BuildRequires:	java-rpmbuild
