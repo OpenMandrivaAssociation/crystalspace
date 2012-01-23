@@ -61,7 +61,7 @@ hierarchical transformations, etc.
 %package	devel
 Group:		Development/C
 Summary:	Development headers and libraries for %{name}
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 
 %description	devel
 Development headers and libraries for %{name}.
@@ -69,7 +69,7 @@ Development headers and libraries for %{name}.
 %package	doc
 Summary:	Crystalspace documentation
 Group:		Development/C
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 Conflicts:	freetds-devel
 BuildArch:	noarch
 
@@ -79,7 +79,7 @@ Crystalspace documentation.
 %package	demos
 Summary:	Crystalspace demos
 Group:		Toys
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 
 %description	demos
 Crystalspace demos.
@@ -87,7 +87,7 @@ Crystalspace demos.
 %package	bindings-python
 Summary:	Python bindings for Crystal Space free 3D SDK
 Group:		Development/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 
 %description bindings-python
 Python bindings for Crystal Space free 3D SDK.
@@ -96,7 +96,7 @@ Python bindings for Crystal Space free 3D SDK.
 %package	bindings-java
 Group:		Development/Java
 Summary:	Java bindings for Crystal Space free 3D SDK
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 Requires:	java
 
 %description	bindings-java
@@ -106,7 +106,7 @@ Java bindings for Crystal Space free 3D SDK.
 %package	bindings-perl
 Summary:	Perl bindings for Crystal Space free 3D SDK
 Group:		Development/Perl
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{EVRD}
 Requires:	perl
 
 %description	bindings-perl
