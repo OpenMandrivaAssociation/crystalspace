@@ -47,7 +47,6 @@ BuildRequires:	perl(Template::Base)
 BuildRequires:	java-rpmbuild
 BuildRequires:	ant
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Crystal Space is a free (LGPL) and portable 3D Development Kit
@@ -142,7 +141,6 @@ CXXFLAGS="%{optflags} -fpermissive" \
 jam -d2 %{_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 DESTDIR=%{buildroot} jam -d2 install
 
 install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.m4
@@ -151,11 +149,7 @@ install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.
 rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
 %endif
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %{_libdir}/libcrystalspace*-%{major}.so
 %dir %{_libdir}/%{name}-%{major}
 %{_libdir}/%{name}-%{major}/*.so
@@ -170,7 +164,6 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{name}-%{major}/*
 
 %files devel
-%defattr(-,root,root)
 %{_includedir}/*
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
@@ -182,18 +175,15 @@ rm -rf %{buildroot}
 %exclude %{_includedir}/%{name}-%{major}/bindings/python
 
 %files doc
-%defattr(-,root,root)
 %doc %{_docdir}/%{name}-%{version}
 
 %files demos
-%defattr(-,root,root)
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
 %exclude %{_bindir}/cs-config-%{major}
 
 %if %{with java}
 %files bindings-java
-%defattr(-,root,root)
 %dir %{_datadir}/%{name}-%{major}/bindings
 %dir %{_datadir}/%{name}-%{major}/bindings/java
 %{_datadir}/%{name}-%{major}/bindings/java/*
@@ -201,13 +191,11 @@ rm -rf %{buildroot}
 %endif
 
 %files bindings-perl
-%defattr(-,root,root)
 %dir %{_datadir}/%{name}-%{major}/bindings/perl5
 %{_datadir}/%{name}-%{major}/bindings/perl5/*
 %{_includedir}/%{name}-%{major}/bindings/perl
 
 %files bindings-python
-%defattr(-,root,root)
 %{python_sitearch}/cspace.pth
 %dir %{_datadir}/%{name}-%{major}/bindings/python
 %{_libdir}/%{name}-%{major}/cspython.so
