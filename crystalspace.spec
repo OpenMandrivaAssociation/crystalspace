@@ -1,52 +1,50 @@
-%bcond_with	java
+%define major 2.0
+%define libname %mklibname %{name} %{major}
 
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
-%define	major	1.4
-Version:	%{major}.1
+Version:	%{major}
 Release:	1
 Group:		System/Libraries
 License:	LGPLv2+
-URL:		http://www.crystalspace3d.org/
+Url:		http://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
-Patch0:		crystalspace-src-1.4.1-cs-config.patch
-BuildRequires:	lib3ds-devel >= 1.3.0
-#BuildRequires:	MesaGLU-devel
-BuildRequires:	pkgconfig(vorbis)
-BuildRequires:	libmikmod-devel
-BuildRequires:	pkgconfig(cal3d)
-BuildRequires:	jpeg-devel
-BuildRequires:	pkgconfig(zlib)
-BuildRequires:	pkgconfig(ode)
-BuildRequires:	pkgconfig(libpng12)
-BuildRequires:	pkgconfig(openal)
-BuildRequires:	mng-devel
-BuildRequires:	X11-devel
-BuildRequires:	nasm
-BuildRequires:	perl-devel
-BuildRequires:	wxgtku-devel
-BuildRequires:	swig >= 1.3.14
-BuildRequires:	bison >= 1.35
-BuildRequires:	python-devel
-BuildRequires:	ftjam >= 2.5.3rc2-0.9
-BuildRequires:	flex
+Patch0:		crystalspace-2.0-gcc47.patch
+BuildRequires:	bison
 BuildRequires:	doxygen
-BuildRequires:	pkgconfig(bullet)
+BuildRequires:	flex
+BuildRequires:	ftjam
+BuildRequires:	icoutils
+BuildRequires:	imagemagick
 BuildRequires:	libtool
-BuildRequires:	texinfo
-BuildRequires:	pkgconfig(librsvg-2.0)
-BuildRequires:	pkgconfig(caca)
+BuildRequires:	nasm
+BuildRequires:	swig >= 1.3.14
 BuildRequires:	tetex-dvipdfm
 BuildRequires:	tetex-dvips
-BuildRequires:	imagemagick
-BuildRequires:	pkgconfig(cppunit)
-BuildRequires:	icoutils
-BuildRequires:	pkgconfig(CEGUI)
+BuildRequires:	texinfo
 BuildRequires:	perl(Template::Base)
-%if %{with java}
-BuildRequires:	java-rpmbuild
-BuildRequires:	ant
-%endif
+BuildRequires:	jpeg-devel
+BuildRequires:	mng-devel
+BuildRequires:	perl-devel
+BuildRequires:	wxgtku2.8-devel
+BuildRequires:	lib3ds-devel >= 1.3.0
+BuildRequires:	libmikmod-devel
+BuildRequires:	pkgconfig(bullet)
+BuildRequires:	pkgconfig(cal3d)
+BuildRequires:	pkgconfig(CEGUI)
+BuildRequires:	pkgconfig(cppunit)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(librsvg-2.0)
+BuildRequires:	pkgconfig(ode)
+BuildRequires:	pkgconfig(openal)
+BuildRequires:	pkgconfig(python)
+BuildRequires:	pkgconfig(speex)
+BuildRequires:	pkgconfig(vorbis)
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(zlib)
+# Dropped in 2.0 upstream:
+Obsoletes:	crystalspace-bindings-java < 2.0
+Obsoletes:	crystalspace-bindings-perl < 2.0
 
 %description
 Crystal Space is a free (LGPL) and portable 3D Development Kit
@@ -58,99 +56,7 @@ scripting (using Python or other languages), 8-bit, 16-bit, and 32-bit
 display support, OpenGL and software renderering, font support,
 hierarchical transformations, etc.
 
-%package	devel
-Group:		Development/C
-Summary:	Development headers and libraries for %{name}
-Requires:	%{name} = %{EVRD}
-
-%description	devel
-Development headers and libraries for %{name}.
-
-%package	doc
-Summary:	Crystalspace documentation
-Group:		Development/C
-Requires:	%{name} = %{EVRD}
-Conflicts:	freetds-devel
-BuildArch:	noarch
-
-%description	doc
-Crystalspace documentation.
-
-%package	demos
-Summary:	Crystalspace demos
-Group:		Toys
-Requires:	%{name} = %{EVRD}
-
-%description	demos
-Crystalspace demos.
-
-%package	bindings-python
-Summary:	Python bindings for Crystal Space free 3D SDK
-Group:		Development/Python
-Requires:	%{name} = %{EVRD}
-
-%description bindings-python
-Python bindings for Crystal Space free 3D SDK.
-
-%if %{with java}
-%package	bindings-java
-Group:		Development/Java
-Summary:	Java bindings for Crystal Space free 3D SDK
-Requires:	%{name} = %{EVRD}
-Requires:	java
-
-%description	bindings-java
-Java bindings for Crystal Space free 3D SDK.
-%endif
-
-%package	bindings-perl
-Summary:	Perl bindings for Crystal Space free 3D SDK
-Group:		Development/Perl
-Requires:	%{name} = %{EVRD}
-Requires:	perl
-
-%description	bindings-perl
-Perl bindings for Crystal Space free 3D SDK.
-
-%prep
-%setup -q -n %{name}-src-%{version}
-%patch0 -p1
-
-sed	-e 's#--exists libpng#--exists libpng12#g' \
-	-e 's#--cflags libpng#--cflags libpng12#g' \
-	-e 's#--libs libpng#--libs libpng12#g' \
-	-i configure
-
-%build
-CXXFLAGS="%{optflags} -fpermissive" \
-%configure2_5x	\
-	--enable-cpu-specific-optimizations=no \
-	--with-mesa \
-	--disable-optimize \
-	--disable-debug \
-	--disable-separate-debug-info \
-%if %{with java}
-	--with-java \
-%else
-	--without-java \
-%endif
-	--with-wx \
-	--with-caca=%{_prefix} \
-	--disable-meta-info-embedding
-
-jam -d2 %{_smp_mflags}
-
-%install
-DESTDIR=%{buildroot} jam -d2 install
-
-install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.m4
-
-%if !%{with java}
-rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
-%endif
-
 %files
-%{_libdir}/libcrystalspace*-%{major}.so
 %dir %{_libdir}/%{name}-%{major}
 %{_libdir}/%{name}-%{major}/*.so
 %{_libdir}/%{name}-%{major}/*.csplugin
@@ -162,38 +68,76 @@ rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
 %{_datadir}/%{name}-%{major}/data
 %dir %{_sysconfdir}/%{name}-%{major}
 %config(noreplace) %{_sysconfdir}/%{name}-%{major}/*
+%{_sysconfdir}/profile.d/90crystalspace.sh
+
+#----------------------------------------------------------------------------
+
+%package -n %{libname}
+Summary:	Shared libraries for %{name}
+Group:		System/Libraries
+Requires:	%{name} = %{EVRD}
+
+%description -n %{libname}
+Shared libraries for %{name}.
+
+%files -n %{libname}
+%{_libdir}/libcrystalspace*-%{major}.so
+
+#----------------------------------------------------------------------------
+
+%package devel
+Summary:	Development headers and libraries for %{name}
+Group:		Development/C
+Requires:	%{libname} = %{EVRD}
+
+%description devel
+Development headers and libraries for %{name}.
 
 %files devel
 %{_includedir}/*
 %{_datadir}/aclocal/crystal.m4
 %{_bindir}/cs-config*
-
-%if %{with java}
-%exclude %{_includedir}/%{name}-%{major}/bindings/java
-%endif
-%exclude %{_includedir}/%{name}-%{major}/bindings/perl
 %exclude %{_includedir}/%{name}-%{major}/bindings/python
+
+#----------------------------------------------------------------------------
+
+%package doc
+Summary:	Crystalspace documentation
+Group:		Development/C
+Requires:	%{name} = %{EVRD}
+Conflicts:	freetds-devel
+BuildArch:	noarch
+
+%description doc
+Crystalspace documentation.
 
 %files doc
 %doc %{_docdir}/%{name}-%{version}
+
+#----------------------------------------------------------------------------
+
+%package demos
+Summary:	Crystalspace demos
+Group:		Toys
+Requires:	%{name} = %{EVRD}
+
+%description demos
+Crystalspace demos.
 
 %files demos
 %{_bindir}/*
 %exclude %{_bindir}/cs-config
 %exclude %{_bindir}/cs-config-%{major}
 
-%if %{with java}
-%files bindings-java
-%dir %{_datadir}/%{name}-%{major}/bindings
-%dir %{_datadir}/%{name}-%{major}/bindings/java
-%{_datadir}/%{name}-%{major}/bindings/java/*
-%{_includedir}/%{name}-%{major}/bindings/java
-%endif
+#----------------------------------------------------------------------------
 
-%files bindings-perl
-%dir %{_datadir}/%{name}-%{major}/bindings/perl5
-%{_datadir}/%{name}-%{major}/bindings/perl5/*
-%{_includedir}/%{name}-%{major}/bindings/perl
+%package	bindings-python
+Summary:	Python bindings for Crystal Space free 3D SDK
+Group:		Development/Python
+Requires:	%{name} = %{EVRD}
+
+%description bindings-python
+Python bindings for Crystal Space free 3D SDK.
 
 %files bindings-python
 %{python_sitearch}/cspace.pth
@@ -202,3 +146,36 @@ rm -rf %{buildroot}{%{_datadir},%{_includedir}}/%{name}-%{major}/bindings/java
 %{_libdir}/%{name}-%{major}/cspython.csplugin
 %{_datadir}/%{name}-%{major}/bindings/python/*
 %{_includedir}/%{name}-%{major}/bindings/python
+
+#----------------------------------------------------------------------------
+
+%prep
+%setup -q -n %{name}-src-%{version}
+%patch0 -p1
+
+%build
+CXXFLAGS="%{optflags} -fpermissive" \
+%configure2_5x	\
+	--enable-cpu-specific-optimizations=no \
+	--with-mesa \
+	--disable-optimize \
+	--disable-debug \
+	--disable-separate-debug-info \
+	--without-Cg \
+	--with-wx \
+	--disable-meta-info-embedding
+
+jam -d2 %{_smp_mflags}
+
+%install
+DESTDIR=%{buildroot} jam -d2 install
+
+# Fix unstripped-binary-or-object
+chmod 0755 %{buildroot}%{_libdir}/*.so
+
+install -m644 mk/autoconf/crystal.m4 -D %{buildroot}%{_datadir}/aclocal/crystal.m4
+
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
+echo "export CRYSTAL_PLUGIN=%{_libdir}/%{name}-%{major}" > %{buildroot}%{_sysconfdir}/profile.d/90crystalspace.sh
+echo "export CRYSTAL_CONFIG=/%{name}-%{major}/" >> %{buildroot}%{_sysconfdir}/profile.d/90crystalspace.sh
+
