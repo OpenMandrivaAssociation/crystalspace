@@ -4,7 +4,7 @@
 Summary:	CrystalSpace free 3d engine
 Name:		crystalspace
 Version:	%{major}
-Release:	1
+Release:	2
 Group:		System/Libraries
 License:	LGPLv2+
 Url:		http://www.crystalspace3d.org/
@@ -29,13 +29,21 @@ BuildRequires:	perl-devel
 BuildRequires:	wxgtku2.8-devel
 BuildRequires:	lib3ds-devel >= 1.3.0
 BuildRequires:	libmikmod-devel
+BuildRequires:	pkgconfig(alsa)
 BuildRequires:	pkgconfig(bullet)
+BuildRequires:	pkgconfig(cairo)
+BuildRequires:	pkgconfig(cairomm-1.0)
 BuildRequires:	pkgconfig(cal3d)
 BuildRequires:	pkgconfig(CEGUI)
 BuildRequires:	pkgconfig(cppunit)
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(gl)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(lcms)
 BuildRequires:	pkgconfig(libpng)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(ode)
+BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(openal)
 BuildRequires:	pkgconfig(python)
 BuildRequires:	pkgconfig(speex)
