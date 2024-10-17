@@ -7,7 +7,7 @@ Version:	%{major}
 Release:	3
 Group:		System/Libraries
 License:	LGPLv2+
-Url:		http://www.crystalspace3d.org/
+Url:		https://www.crystalspace3d.org/
 Source0:	http://www.crystalspace3d.org/downloads/release/%{name}-src-%{version}.tar.bz2
 Patch0:		crystalspace-2.0-gcc47.patch
 BuildRequires:	bison
